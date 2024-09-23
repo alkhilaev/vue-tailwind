@@ -11,6 +11,7 @@ export default {
       },
       colors: {
         "white-100": "#FAFBFF",
+        primary: "#5932EA",
       },
       screens: {
         mobile: { max: "640px" },

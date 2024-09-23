@@ -6,7 +6,12 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      component: () => import("@/views/index.vue"),
+      redirect: "/users?limit=10&page=1",
+    },
+    {
+      path: "/users",
+      name: "users",
+      component: () => import("@/views/users/index.vue"),
     },
   ],
 });

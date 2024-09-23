@@ -8,7 +8,17 @@
       <IconComponent name="arrow-left-s-line" />
     </button>
     <button
-      v-for="page in pages"
+      @click="changePage(1)"
+      :class="[
+        'w-[30px] h-[30px] sm:w-[40px] sm:h-[40px] flex items-center justify-center rounded',
+        currentPage === 1 ? 'bg-primary text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300',
+      ]"
+    >
+      1
+    </button>
+    <span v-if="showLeftEllipsis" class="text-gray-600">...</span>
+    <button
+      v-for="page in filteredPagesToShow"
       :key="page"
       @click="changePage(page)"
       :class="[
@@ -17,6 +27,17 @@
       ]"
     >
       {{ page }}
+    </button>
+    <span v-if="showRightEllipsis" class="text-gray-600">...</span>
+    <button
+      v-if="totalPages > 1"
+      @click="changePage(totalPages)"
+      :class="[
+        'w-[30px] h-[30px] sm:w-[40px] sm:h-[40px] flex items-center justify-center rounded',
+        currentPage === totalPages ? 'bg-primary text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300',
+      ]"
+    >
+      {{ totalPages }}
     </button>
     <button
       @click="changePage(currentPage + 1)"
@@ -54,13 +75,33 @@ const emit = defineEmits(["update:page"]);
 const totalPages = computed(() => Math.ceil(props.total / props.limit));
 
 // Генерация номеров страниц
-const pages = computed(() => {
-  const pagesArray = [];
-  for (let i = 1; i <= totalPages.value; i++) {
-    pagesArray.push(i);
+const pagesToShow = computed(() => {
+  const pages = [];
+  if (totalPages.value <= 6) {
+    for (let i = 2; i <= totalPages.value - 1; i++) {
+      // Начинаем со 2 страницы, заканчиваем перед последней
+      pages.push(i);
+    }
+  } else {
+    const startPage = Math.max(2, props.page - 1);
+    const endPage = Math.min(totalPages.value - 1, props.page + 1);
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
   }
-  return pagesArray;
+  return pages;
 });
+
+// Отфильтрованные страницы без первой и последней
+const filteredPagesToShow = computed(() => {
+  return pagesToShow.value.filter((page) => page !== 1 && page !== totalPages.value);
+});
+
+// Показываем многоточие слева
+const showLeftEllipsis = computed(() => props.page > 3);
+
+// Показываем многоточие справа
+const showRightEllipsis = computed(() => props.page < totalPages.value - 3);
 
 // Текущая страница
 const currentPage = computed({

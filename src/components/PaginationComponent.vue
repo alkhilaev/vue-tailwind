@@ -52,7 +52,6 @@
 <script setup>
 import { computed } from "vue";
 import IconComponent from "@/components/IconComponent.vue";
-import { defineProps, defineEmits } from "vue";
 
 const props = defineProps({
   total: {

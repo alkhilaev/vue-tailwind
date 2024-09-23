@@ -1,0 +1,71 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "User API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://66f0c4aff2a8bce81be69ab4.mockapi.io/api/v1"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "summary": "Получить список пользователей",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Количество пользователей на страницу",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Номер страницы",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Поиск по имени пользователя",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список пользователей",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "integer" },
+                      "name": { "type": "string" },
+                      "email": { "type": "string" },
+                      "createdAt": { "type": "string", "format": "date-time" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

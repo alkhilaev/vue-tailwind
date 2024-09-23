@@ -130,16 +130,25 @@ watch(
 </script>
 
 <template>
-  <main class="container mx-auto bg-white my-10 p-8 shadow-custom rounded-4xl flex flex-col gap-10">
-    <div class="flex justify-between items-center">
-      <h2 class="text-2xl font-semibold">All users</h2>
-      <InputComponent placeholder="Search" v-model="search" @update:model-value="handleSearch">
+  <main
+    class="container mx-auto bg-white my-10 p-4 sm:p-8 shadow-custom rounded-4xl flex flex-col gap-4 sm:gap-10"
+  >
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+      <h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-0">All users</h2>
+      <InputComponent
+        placeholder="Search"
+        v-model="search"
+        @update:model-value="handleSearch"
+        class="w-full sm:w-auto"
+      >
         <template #before>
           <IconComponent category="outline" name="search" />
         </template>
       </InputComponent>
     </div>
-    <TableComponent :columns="columns" :rows="rows" :loading="loading" />
+    <div class="overflow-x-auto">
+      <TableComponent :columns="columns" :rows="rows" :loading="loading" />
+    </div>
     <PaginationComponent :total="total" :page="page" :limit="limit" @update:page="handlePaginate" />
   </main>
 </template>

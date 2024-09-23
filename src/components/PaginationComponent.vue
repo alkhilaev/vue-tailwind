@@ -1,9 +1,9 @@
 <template>
-  <div class="flex items-center justify-end space-x-3">
+  <div class="flex items-center justify-end space-x-2 sm:space-x-3">
     <button
       @click="changePage(currentPage - 1)"
       :disabled="currentPage === 1"
-      class="w-[40px] h-[40px] bg-gray-200 text-gray-600 rounded flex items-center justify-center hover:bg-gray-300 disabled:opacity-50"
+      class="w-[30px] h-[30px] sm:w-[40px] sm:h-[40px] bg-gray-200 text-gray-600 rounded flex items-center justify-center hover:bg-gray-300 disabled:opacity-50"
     >
       <IconComponent name="arrow-left-s-line" />
     </button>
@@ -12,7 +12,7 @@
       :key="page"
       @click="changePage(page)"
       :class="[
-        'w-[40px] h-[40px] flex items-center justify-center rounded',
+        'w-[30px] h-[30px] sm:w-[40px] sm:h-[40px] flex items-center justify-center rounded',
         currentPage === page ? 'bg-primary text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300',
       ]"
     >
@@ -21,7 +21,7 @@
     <button
       @click="changePage(currentPage + 1)"
       :disabled="currentPage === totalPages"
-      class="w-[40px] h-[40px] bg-gray-200 text-gray-600 rounded flex items-center justify-center hover:bg-gray-300 disabled:opacity-50"
+      class="w-[30px] h-[30px] sm:w-[40px] sm:h-[40px] bg-gray-200 text-gray-600 rounded flex items-center justify-center hover:bg-gray-300 disabled:opacity-50"
     >
       <IconComponent name="arrow-right-s-line" />
     </button>

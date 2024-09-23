@@ -131,8 +131,11 @@ watch(
 
 <template>
   <main
-    class="container mx-auto bg-white my-10 p-4 sm:p-8 shadow-custom rounded-4xl flex flex-col gap-4 sm:gap-10"
+    class="container mx-auto bg-white my-8 p-4 sm:p-8 shadow-custom rounded-4xl flex flex-col gap-4 sm:gap-8"
   >
+    <router-link :to="{ name: 'swagger' }" class="w-32 bg-primary text-white px-4 py-3 rounded-xl">
+      Swagger API
+    </router-link>
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center">
       <h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-0">All users</h2>
       <InputComponent

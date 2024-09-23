@@ -21,4 +21,9 @@ export default defineComponent({
 
 <template>
   <div id="swagger-ui"></div>
+  <div class="container mx-auto px-5 py-5">
+    <router-link :to="{ name: 'home' }" class="bg-primary text-white px-4 py-3 rounded-xl">
+      Go back
+    </router-link>
+  </div>
 </template>

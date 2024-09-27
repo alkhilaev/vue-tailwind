@@ -16,8 +16,16 @@
 
     <!-- Секция с объектами -->
     <div class="row-span-2 col-start-1">
-      <div v-for="object in objects" :key="object.id" class="p-4 bg-gray-100 border">
-        {{ object.name }}
+      <div
+        v-for="object in objects"
+        :key="object.id"
+        class="h-[50px] flex items-center p-2 bg-gray-100 border"
+        @mouseenter="showTooltip(object.name, $event)"
+        @mouseleave="hideTooltip"
+      >
+        <span class="truncate">
+          {{ object.name }}
+        </span>
       </div>
     </div>
 
@@ -42,7 +50,7 @@
     <!-- Tooltip -->
     <div
       v-if="tooltipVisible"
-      class="absolute bg-gray-800 text-white p-2 rounded text-sm"
+      class="absolute bg-gray-800 text-white p-2 rounded text-sm z-10"
       :style="tooltipStyle"
     >
       {{ tooltipContent }}

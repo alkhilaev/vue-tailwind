@@ -124,8 +124,8 @@ export default {
       // Октябрь
       { id: 27, guest: "Stephen Strange", startDate: "2024-10-01", endDate: "2024-10-05", objectId: 4 },
       { id: 28, guest: "Wanda Maximoff", startDate: "2024-10-06", endDate: "2024-10-10", objectId: 5 },
-      { id: 28, guest: "Abdula Alkhilaev", startDate: "2024-10-07", endDate: "2024-10-10", objectId: 4 },
-      { id: 28, guest: "Magdi Murtuzov", startDate: "2024-10-30", endDate: "2024-11-2", objectId: 4 },
+      { id: 33, guest: "Abdula Alkhilaev", startDate: "2024-10-06", endDate: "2024-10-10", objectId: 4 },
+      { id: 34, guest: "Magdi Murtuzov", startDate: "2024-10-30", endDate: "2024-11-2", objectId: 4 },
       { id: 1, guest: "John Doe", startDate: "2024-10-29", endDate: "2024-11-5", objectId: 1 },
 
       // Ноябрь
@@ -191,19 +191,15 @@ export default {
       const startDate = new Date(booking.startDate);
       const endDate = new Date(booking.endDate);
 
-      // Определяем первый и последний день текущего месяца
       const firstDayOfMonth = new Date(currentYear.value, currentMonth.value, 1);
       const lastDayOfMonth = new Date(currentYear.value, currentMonth.value + 1, 0);
 
-      // Если бронирование началось до начала месяца — позиция с самого начала месяца
       const start = startDate < firstDayOfMonth ? 0 : startDate.getDate() - 1;
-
-      // Если бронирование заканчивается после конца месяца — ширина до конца месяца
       const end = endDate > lastDayOfMonth ? lastDayOfMonth.getDate() - 1 : endDate.getDate() - 1;
 
       return {
         left: `${(start / lastDayOfMonth.getDate()) * 100}%`,
-        width: `${((end - start + 1) / lastDayOfMonth.getDate()) * 100}%`,
+        width: `calc(${((end - start + 1) / lastDayOfMonth.getDate()) * 100}% - 5px)`, // уменьшаем ширину на 5px
       };
     };
 

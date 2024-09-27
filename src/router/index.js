@@ -18,6 +18,11 @@ const router = createRouter({
       name: "swagger",
       component: () => import("@/views/swagger/index.vue"),
     },
+    {
+      path: "/booking",
+      name: "booking",
+      component: () => import("@/views/booking/index.vue"),
+    },
   ],
 });
 

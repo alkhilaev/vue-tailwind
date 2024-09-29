@@ -2,12 +2,16 @@
   <div class="container mx-auto my-6">
     <div class="flex">
       <!-- Колонка объектов -->
-      <div class="w-48" style="padding-top: 20px">
+      <div class="w-20 sm:w-48" style="padding-top: 20px">
         <!-- Пустая ячейка для заголовка дат -->
         <div class="h-12 border-b border-r"></div>
         <!-- Список объектов -->
         <div>
-          <div v-for="object in objects" :key="object.id" class="h-12 flex items-center border-b border-r">
+          <div
+            v-for="object in objects"
+            :key="object.id"
+            class="h-12 flex items-center justify-center sm:justify-normal border-b border-r"
+          >
             <span class="truncate">
               {{ object.name }}
             </span>
@@ -34,6 +38,7 @@
                 class="absolute bg-black"
                 :style="{
                   width: '2px',
+                  'z-index': 1,
                   height: 'calc(100% + ' + objects.length * 48 + 'px)',
                   right: '0',
                   top: '0',
@@ -43,7 +48,16 @@
           </div>
           <!-- Сетка бронирований -->
           <div>
-            <div v-for="object in objects" :key="object.id" class="relative h-12 border-b border-r">
+            <div v-for="object in objects" :key="object.id" class="relative h-12">
+              <!-- Grid cells with borders -->
+              <div class="absolute top-0 left-0 flex" :style="{ width: '100%', height: '100%' }">
+                <div
+                  v-for="(date, index) in displayedDates"
+                  :key="index"
+                  class="border-b border-r"
+                  :style="{ width: CELL_WIDTH + 'px', height: '100%' }"
+                ></div>
+              </div>
               <!-- Блоки бронирований -->
               <div
                 v-for="booking in getBookingsForObject(object.id)"
@@ -109,19 +123,12 @@ const generateBookings = () => {
   const startYear = 2022;
   const endYear = 2024;
   const objectIds = objects.value.map((obj) => obj.id);
-  const guests = [
-    "Гость 1",
-    "Гость 2",
-    "Гость 3",
-    "Гость 4",
-    "Гость 5",
-    // Добавьте другие имена гостей
-  ];
+  const guests = ["Гость 1", "Гость 2", "Гость 3", "Гость 4", "Гость 5"];
 
   for (let year = startYear; year <= endYear; year++) {
     for (let month = 0; month < 12; month++) {
       // Создаём 3 бронирования на каждый месяц
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < 4; i++) {
         const startDay = Math.floor(Math.random() * 28) + 1;
         const duration = Math.floor(Math.random() * 5) + 1; // От 1 до 5 дней
         const endDay = startDay + duration;
@@ -273,6 +280,7 @@ const bookingStyle = (booking) => {
   return {
     left: `${left}px`,
     width: `${width}px`,
+    zIndex: 2,
   };
 };
 
@@ -354,8 +362,8 @@ const hideTooltip = () => {
 .month-marker::before {
   content: "";
   display: none;
-  width: 1px; /* Толщина чёрточки */
-  height: 16px; /* Высота чёрточки */
+  width: 1px;
+  height: 16px;
   background-color: black;
   margin-right: 5px;
   transform: translateX(-1px);

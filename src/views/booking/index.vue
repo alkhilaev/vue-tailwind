@@ -2,7 +2,7 @@
   <div class="container mx-auto my-6">
     <div class="flex">
       <!-- Колонка объектов -->
-      <div class="w-48">
+      <div class="w-48" style="padding-top: 20px">
         <!-- Пустая ячейка для заголовка дат -->
         <div class="h-12 border-b border-r"></div>
         <!-- Список объектов -->
@@ -16,7 +16,7 @@
       </div>
       <!-- Скролл дат и бронирований -->
       <div class="flex-1 overflow-x-auto relative" @scroll="handleScroll" ref="scrollContainer">
-        <div class="relative" :style="{ width: totalWidth + 'px' }">
+        <div class="relative" :style="{ width: totalWidth + 'px' }" style="padding-top: 20px">
           <!-- Заголовок дат -->
           <div class="flex relative">
             <div
@@ -41,23 +41,6 @@
               ></div>
             </div>
           </div>
-          <!-- Метки месяцев -->
-          <div class="relative" style="overflow: visible">
-            <div
-              v-for="(month, index) in monthMarkers"
-              :key="index"
-              class="month-marker"
-              :class="{ 'month-marker--before': month.align === 'right' }"
-              :style="{
-                left: month.position + 'px',
-                top: '-3rem',
-                transform: month.align === 'left' ? 'translateX(-105%)' : 'translateX(0)',
-              }"
-            >
-              <!--              {{ month.align }}-->
-              {{ month.label }}
-            </div>
-          </div>
           <!-- Сетка бронирований -->
           <div>
             <div v-for="object in objects" :key="object.id" class="relative h-12 border-b border-r">
@@ -72,6 +55,22 @@
               >
                 {{ booking.guest }}
               </div>
+            </div>
+          </div>
+          <!-- Метки месяцев -->
+          <div class="relative" style="top: -255px">
+            <div
+              v-for="(month, index) in monthMarkers"
+              :key="index"
+              class="month-marker"
+              :class="{ 'month-marker--before': month.align === 'right' }"
+              :style="{
+                left: month.position + 'px',
+                top: '-3.5rem',
+                transform: month.align === 'left' ? 'translateX(-105%)' : 'translateX(0)',
+              }"
+            >
+              {{ month.label }}
             </div>
           </div>
         </div>
@@ -359,12 +358,10 @@ const hideTooltip = () => {
   height: 16px; /* Высота чёрточки */
   background-color: black;
   margin-right: 5px;
-  //margin-left: 5px;
+  transform: translateX(-1px);
 }
 
 .month-marker--before::before {
-  display: flex;
-  //margin-left: 0;
-  transform: translateX(-1px);
+  display: block;
 }
 </style>

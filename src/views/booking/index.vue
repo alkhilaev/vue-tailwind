@@ -40,17 +40,21 @@
                 }"
               ></div>
             </div>
-            <!-- Метки месяцев -->
+          </div>
+          <!-- Метки месяцев -->
+          <div class="relative" style="overflow: visible">
             <div
               v-for="(month, index) in monthMarkers"
               :key="index"
-              class="absolute text-xs font-bold"
+              class="month-marker"
+              :class="{ 'month-marker--before': month.align === 'right' }"
               :style="{
                 left: month.position + 'px',
-                top: '-1.5rem',
-                width: 'max-content',
+                top: '-3rem',
+                transform: month.align === 'left' ? 'translateX(-105%)' : 'translateX(0)',
               }"
             >
+              <!--              {{ month.align }}-->
               {{ month.label }}
             </div>
           </div>
@@ -103,8 +107,8 @@ const bookings = ref([]);
 const generateBookings = () => {
   let idCounter = 1;
   const bookingData = [];
-  const startYear = 2000;
-  const endYear = 2050;
+  const startYear = 2022;
+  const endYear = 2024;
   const objectIds = objects.value.map((obj) => obj.id);
   const guests = [
     "Гость 1",
@@ -148,7 +152,6 @@ const displayedDates = ref([]);
 
 const currentDate = ref(new Date()); // Используем текущую дату
 
-// Переносим объявление переменных в глобальную область видимости
 const daysBeforeTotal = 36; // Общее количество дней до текущей даты для скролла
 const daysBeforeDisplay = 6; // Количество дней до текущей даты для отображения
 
@@ -169,11 +172,11 @@ const initDisplayedDates = () => {
   }
 
   displayedDates.value = dates;
-  updateMonthMarkers();
 
-  // После отрисовки прокручиваем до текущей даты
+  // После отрисовки прокручиваем до текущей даты и обновляем метки месяцев
   nextTick(() => {
     scrollToCurrentDate();
+    updateMonthMarkers();
   });
 };
 
@@ -209,19 +212,31 @@ const monthMarkers = ref([]);
 
 const updateMonthMarkers = () => {
   monthMarkers.value = [];
-  displayedDates.value.forEach((date, index) => {
-    if (isMonthStart(date, index)) {
-      const label = monthLabel(date);
-      const position = index * CELL_WIDTH;
-      monthMarkers.value.push({ label, position });
-    }
-  });
-};
+  for (let index = 0; index < displayedDates.value.length; index++) {
+    const date = displayedDates.value[index];
+    const prevDate = displayedDates.value[index - 1];
+    const nextDate = displayedDates.value[index + 1];
 
-const isMonthStart = (date, index) => {
-  if (index === 0) return true;
-  const prevDate = displayedDates.value[index - 1];
-  return date.getMonth() !== prevDate.getMonth();
+    // Проверяем начало месяца
+    if (index === 0 || date.getMonth() !== prevDate?.getMonth()) {
+      // Добавляем метку над первым днём месяца
+      monthMarkers.value.push({
+        label: monthLabel(date),
+        position: index * CELL_WIDTH,
+        align: "right",
+      });
+    }
+
+    // Проверяем конец месяца
+    if (nextDate && date.getMonth() !== nextDate.getMonth()) {
+      // Добавляем метку над последним днём текущего месяца
+      monthMarkers.value.push({
+        label: monthLabel(date),
+        position: (index + 1) * CELL_WIDTH,
+        align: "left",
+      });
+    }
+  }
 };
 
 const monthLabel = (date) => {
@@ -327,3 +342,29 @@ const hideTooltip = () => {
   tooltipVisible.value = false;
 };
 </script>
+
+<style scoped>
+.month-marker {
+  position: absolute;
+  font-size: 0.75rem; /* text-xs */
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.month-marker::before {
+  content: "";
+  display: none;
+  width: 1px; /* Толщина чёрточки */
+  height: 16px; /* Высота чёрточки */
+  background-color: black;
+  margin-right: 5px;
+  //margin-left: 5px;
+}
+
+.month-marker--before::before {
+  display: flex;
+  //margin-left: 0;
+  transform: translateX(-1px);
+}
+</style>

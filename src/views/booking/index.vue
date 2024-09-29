@@ -63,7 +63,7 @@
                 v-for="booking in getBookingsForObject(object.id)"
                 :key="booking.id"
                 :style="bookingStyle(booking)"
-                class="absolute top-0 h-full bg-green-200 border border-green-400 overflow-hidden text-ellipsis whitespace-nowrap px-1 rounded-md"
+                class="absolute top-0 h-10 items-center my-1 bg-green-200 border border-green-400 overflow-hidden text-ellipsis whitespace-nowrap px-1 rounded-md"
                 @mouseenter="showTooltip(booking.guest, $event)"
                 @mouseleave="hideTooltip"
               >
